@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dverousity</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app">
+    <aside id="sidebar">
+      <div id="sidebar-header">
+        <div id="logo">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="14,2 26,8 26,20 14,26 2,20 2,8" fill="none" stroke="#a78bfa" stroke-width="2"/>
+            <circle cx="14" cy="14" r="4" fill="#a78bfa"/>
+            <line x1="14" y1="6" x2="14" y2="10" stroke="#a78bfa" stroke-width="1.5"/>
+            <line x1="14" y1="18" x2="14" y2="22" stroke="#a78bfa" stroke-width="1.5"/>
+            <line x1="7" y1="9.5" x2="10.5" y2="11.5" stroke="#a78bfa" stroke-width="1.5"/>
+            <line x1="17.5" y1="16.5" x2="21" y2="18.5" stroke="#a78bfa" stroke-width="1.5"/>
+            <line x1="21" y1="9.5" x2="17.5" y2="11.5" stroke="#a78bfa" stroke-width="1.5"/>
+            <line x1="10.5" y1="16.5" x2="7" y2="18.5" stroke="#a78bfa" stroke-width="1.5"/>
+          </svg>
+          <span>Dverousity</span>
+        </div>
+        <button id="new-chat-btn" title="New Chat">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 3.5V14.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <path d="M3.5 9H14.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+      <div id="chat-history-label">Chat History</div>
+      <div id="chat-history-list"></div>
+      <div id="sidebar-footer">
+        <button id="settings-btn" title="Settings">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="9" cy="9" r="2.5" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M9 1.5v2M9 14.5v2M1.5 9h2M14.5 9h2M3.6 3.6l1.4 1.4M13 13l1.4 1.4M14.4 3.6l-1.4 1.4M5 13l-1.4 1.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          Settings
+        </button>
+      </div>
+    </aside>
+
+    <div id="mobile-overlay" onclick="closeSidebar()"></div>
+
+    <main id="main">
+      <div id="topbar">
+        <button id="menu-btn" onclick="toggleSidebar()">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <span id="topbar-title">Dverousity</span>
+        <div style="width:36px"></div>
+      </div>
+
+      <div id="chat-container">
+        <div id="welcome-screen">
+          <div id="welcome-logo">
+            <svg width="56" height="56" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <polygon points="14,2 26,8 26,20 14,26 2,20 2,8" fill="none" stroke="#a78bfa" stroke-width="2"/>
+              <circle cx="14" cy="14" r="4" fill="#a78bfa"/>
+              <line x1="14" y1="6" x2="14" y2="10" stroke="#a78bfa" stroke-width="1.5"/>
+              <line x1="14" y1="18" x2="14" y2="22" stroke="#a78bfa" stroke-width="1.5"/>
+              <line x1="7" y1="9.5" x2="10.5" y2="11.5" stroke="#a78bfa" stroke-width="1.5"/>
+              <line x1="17.5" y1="16.5" x2="21" y2="18.5" stroke="#a78bfa" stroke-width="1.5"/>
+              <line x1="21" y1="9.5" x2="17.5" y2="11.5" stroke="#a78bfa" stroke-width="1.5"/>
+              <line x1="10.5" y1="16.5" x2="7" y2="18.5" stroke="#a78bfa" stroke-width="1.5"/>
+            </svg>
+            <h1>Dverousity</h1>
+            <p>Your dev assistant for Roblox Studio & JavaScript. Drop your code, ask your questions — let's get it.</p>
+          </div>
+          <div id="starter-prompts">
+            <button class="starter-btn" onclick="sendStarter(this)">How do I use RemoteEvents in Roblox?</button>
+            <button class="starter-btn" onclick="sendStarter(this)">Debug my Lua script</button>
+            <button class="starter-btn" onclick="sendStarter(this)">Explain async/await in JavaScript</button>
+            <button class="starter-btn" onclick="sendStarter(this)">How do DataStores work in Roblox?</button>
+          </div>
+        </div>
+        <div id="messages"></div>
+        <div id="typing-indicator" class="hidden">
+          <div class="ai-avatar">D</div>
+          <div class="typing-dots">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+      </div>
+
+      <div id="input-area">
+        <div id="input-wrapper">
+          <textarea id="user-input" placeholder="Ask about Roblox Studio or JavaScript..." rows="1"></textarea>
+          <button id="send-btn" title="Send">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 10L17 3L10 17L9 11L3 10Z" fill="currentColor"/>
+            </svg>
+          </button>
+        </div>
+        <div id="input-hint">Dverousity helps with Roblox Studio (Lua/Luau) and JavaScript</div>
+      </div>
+    </main>
+  </div>
+
+  <div id="settings-modal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Settings</h2>
+        <button class="modal-close" onclick="closeSettings()">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <path d="M3 3l12 12M15 3L3 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="setting-row">
+          <label>Clear All Chat History</label>
+          <button class="danger-btn" onclick="clearAllHistory()">Clear History</button>
+        </div>
+        <div class="setting-row">
+          <label>Theme</label>
+          <span class="setting-value">Dark (default)</span>
+        </div>
+        <div class="setting-row">
+          <label>Version</label>
+          <span class="setting-value">Dverousity v1.0.0</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="ai-engine.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
